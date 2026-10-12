@@ -1,0 +1,24 @@
+Question 1: Why does the selector start with app-?
+app- is Angular default prefix for this project’s own components. A custom tag needs a prefix with a dash so it can never clash with a real HTML element.
+
+Question 2: If the parent passes a different student, does the card update by itself?
+Yes. student is a signal input and the template reads student(). When the parent passes a different student, the signal changes and every place that reads it updates automatically.
+
+Question 3: Why is the arrow red when its SVG has no color?
+The SVG uses stroke="currentColor". The CSS rule .card__arrow sets color: var(--color-red), so the arrow is drawn in red.
+
+Question 4: Why use computed for photoSrc instead of assigning a value in the constructor?
+it recalculates whenever a signal reads changes. A value assigned once in the constructor is fixed at creation.
+
+Reflection question 1: Why does the card get the student through an input instead of loading it from StudentService?
+The card’s only job is to display one student. With an input it stays reusable and easy to test, and the parent page, which already loads, filters and sorts the list, controls the data in one place. If every card fetched its own data, there would be eight separate requests and the filters wouldn’t work.
+
+Reflection question 2: What is the advantage of a separate card component?
+The markup, styles and logic live in one set of files and are reused for every student. A change to the card is made once and applies everywhere and the directory page stays short and readable.
+
+Reflection question 3: If the backend adds graduationDate, which files change?
+student.model.ts: add graduationDate to the Student interface.
+student-card.html: show it with {{ student().graduationDate }}.
+
+Reflection question 4: Which step was hardest, and what did you do to get unstuck?
+“Step 4 was the hardest, because the file names in my project were different from the lab (students-page instead of student-directory), and I got the error 'app-student-card' is not a known element. I got unstuck by asking the TA for clarification, who helped me understand the problem.
