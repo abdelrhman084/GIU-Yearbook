@@ -1,3 +1,8 @@
+<!--
+FILE: student-card.html
+WHAT: Template of one student card.
+WHY: Shows photo, name, meta line and quote inside one link.
+-->
 <a class="card" [routerLink]="['/students', student().id]"
    [attr.aria-label]="'Read the story of ' + student().name">
 
