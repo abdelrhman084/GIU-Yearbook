@@ -1,3 +1,8 @@
+/*
+FILE: student-card.ts
+WHAT: Component that shows one student as a card.
+WHY: Keeps the card markup in one reusable place.
+*/
 import { Component, computed, input, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { Student } from '../../models/student.model';
