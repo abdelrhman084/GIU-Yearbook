@@ -4,7 +4,7 @@
    FIGMA: Frame "Class of 2028 · Student directory".
 
    WHAT STUDENTS PRACTISE HERE
-   1. Fetching data from a service (the fake API)
+   1. Fetching data from a Aservice (the fake API)
    2. Loading / error / empty states
    3. Filtering + sorting with signals and `computed`
    ===================================================================== */
@@ -12,12 +12,14 @@ import { Component, OnInit, computed, inject, signal } from '@angular/core';
 
 import { Student } from '../../models/student.model';
 import { StudentService } from '../../services/student.service';
+import { StudentCard } from '../../components/student-card/student-card';
 
 // A type for the sort dropdown. Only these two values are allowed.
 type SortMode = 'featured' | 'name';
 
 @Component({
   selector: 'app-student-page',
+  imports: [StudentCard],
   templateUrl: './students-page.html',
   styleUrl: './students-page.css',
 })

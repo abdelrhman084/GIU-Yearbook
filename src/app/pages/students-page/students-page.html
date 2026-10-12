@@ -83,11 +83,10 @@
 } @else {
   <!-- STEP 5: THE GRID. One <app-student-card> per student.
        [student]="s" passes the data into the card's input(). -->
-  <div class="grid" aria-label="Student directory">
+    <div class="grid" aria-label="Student directory">
     @for (s of visibleStudents(); track s.id) {
       <!-- STUDENT CARD GOES HERE -->
-
-      <h2>{{ s.name }}</h2>
+      <app-student-card [student]="s" />
     }
   </div>
 }
