@@ -88,7 +88,7 @@ export class StudentsPage implements OnInit {
   // Event handlers. Each reads what the user did and updates a signal.
   // `event.target` is typed as the generic EventTarget, so we tell
   // TypeScript which element it really is with `as`.
-  protected onSearch(event: Event): void {
+   protected onSearch(event: Event): void {
     this.searchText.set((event.target as HTMLInputElement).value);
   }
 

@@ -1,0 +1,91 @@
+<section class="hero">
+  <div class="hero__text">
+    <p class="overline">THE GIU YEARBOOK / OUR MENTORS</p>
+    <h1 class="hero__title">The people who helped us grow.</h1>
+    <p class="hero__desc">
+      For every lesson, every open door, and every extra bit of encouragement.
+      Meet the teachers and staff behind our journey.
+    </p>
+  </div>
+  <p class="hero__thanks">
+    <span>WITH GRATITUDE</span>
+    <span>From the Class of 2028.</span>
+  </p>
+</section>
+
+<div class="filters">
+  <label class="field field--search">
+    <span class="visually-hidden">Search faculty by name</span>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"
+      stroke-linecap="round" aria-hidden="true">
+      <circle cx="11" cy="11" r="7" /><path d="m20 20-3.5-3.5" />
+    </svg>
+    <input type="search" placeholder="Search faculty by name..." [value]="searchText()" (input)="onSearch($event)" />
+  </label>
+
+  <label class="field field--select">
+    <span class="visually-hidden">Filter by department</span>
+    <select [value]="selectedDepartment()" (change)="onDepartmentChange($event)">
+      <option value="all">All departments</option>
+      @for (d of departments(); track d) {
+        <option [value]="d">{{ d }}</option>
+      }
+    </select>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"
+      stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <path d="m6 9 6 6 6-6" />
+    </svg>
+  </label>
+
+  <label class="field field--select">
+    <span class="visually-hidden">Sort staff</span>
+    <select [value]="sortBy()" (change)="onSortChange($event)">
+      <option value="featured">Featured first</option>
+      <option value="name">Name A–Z</option>
+    </select>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"
+      stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <path d="m6 9 6 6 6-6" />
+    </svg>
+  </label>
+
+  <p class="filters__count" aria-live="polite">
+    {{ visibleStaff().length }} faculty &amp; staff
+  </p>
+</div>
+
+@if (loading()) {
+  <p class="status" role="status">Loading staff…</p>
+} @else if (errorMessage()) {
+  <p class="status status--error" role="alert">{{ errorMessage() }}</p>
+} @else if (visibleStaff().length === 0) {
+  <p class="status">No one matches your search. Try a different name or department.</p>
+} @else {
+  <section class="grid" aria-label="Teachers and staff">
+    @for (m of visibleStaff(); track m.id) {
+      <article class="card">
+        <img class="card__photo" [src]="m.photo" [alt]="'Portrait of ' + m.name" loading="lazy" (error)="onPhotoError($event)" />
+        <div class="card__body">
+          <p class="card__dept">{{ m.department }}</p>
+          <h2 class="card__name">{{ m.name }}</h2>
+          <p class="card__role">{{ m.role }}</p>
+          <p class="card__bio">{{ m.bio }}</p>
+
+          <div class="card__message">
+            <p class="card__quote">“{{ m.quote }}”</p>
+            <svg class="card__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+              stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"
+              aria-hidden="true">
+              <path d="M16 3a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2 1 1 0 0 1 1 1v1a2 2 0 0 1-2 2 1 1 0 0 0-1 1v2a1 1 0 0 0 1 1 6 6 0 0 0 6-6V5a2 2 0 0 0-2-2z" />
+              <path d="M5 3a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2 1 1 0 0 1 1 1v1a2 2 0 0 1-2 2 1 1 0 0 0-1 1v2a1 1 0 0 0 1 1 6 6 0 0 0 6-6V5a2 2 0 0 0-2-2z" />
+            </svg>
+          </div>
+        </div>
+      </article>
+    }
+  </section>
+
+  <p class="tribute">
+    You taught us more than a subject. You helped us imagine what comes next.
+  </p>
+}
