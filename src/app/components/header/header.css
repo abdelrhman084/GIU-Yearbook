@@ -46,7 +46,25 @@
 .nav__link:hover { color: var(--color-ink); }
 .nav__link--active { color: var(--color-red); border-bottom-color: var(--color-red); }
 
-.header__login { justify-self: end; }
+.header__actions {
+  display: flex;
+  align-items: center;
+  justify-self: end;
+  gap: var(--space-4);
+}
+
+.header__saved { font-size: 13px; color: var(--color-muted); }
+
+.header__count {
+  display: inline-block;
+  min-width: 24px;
+  padding: 2px 8px;
+  border-radius: 12px;
+  background: var(--color-gold-tint);
+  color: var(--color-ink);
+  font-weight: 600;
+  text-align: center;
+}
 
 /* STEP 4: MOBILE (Figma: 390px frames).
    Identity and login stay on row 1; navigation becomes row 2.
@@ -61,7 +79,7 @@
     padding-bottom: 0;
   }
   .brand { grid-area: brand; }
-  .header__login { grid-area: login; }
+  .header__actions { grid-area: login; }
   .nav { grid-area: nav; justify-content: space-between; gap: var(--space-3); }
   .nav__link { margin-bottom: 0; padding-bottom: var(--space-3); }
   .brand__logo { width: 120px; }
