@@ -46,10 +46,18 @@
       <p class="header__saved" aria-live="polite">
         Saved <span class="header__count">{{ saved.count() }}</span>
       </p>
-      <a class="btn header__login" routerLink="/login">
-        Student login
-        <img src="icons/arrow-up-right.svg" alt="" aria-hidden="true" />
-      </a>
+
+      @if (auth.currentUser()) {
+        <a class="btn header__login" routerLink="/profile">
+          My Profile
+          <img src="icons/arrow-up-right.svg" alt="" aria-hidden="true" />
+        </a>
+      } @else {
+        <a class="btn header__login" routerLink="/login">
+          Student login
+          <img src="icons/arrow-up-right.svg" alt="" aria-hidden="true" />
+        </a>
+      }
     </div>
   </div>
 </header>

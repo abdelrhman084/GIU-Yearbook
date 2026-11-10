@@ -1,0 +1,143 @@
+<!-- FILE: pages/profile-page/profile-page.html  (STARTER: fill the gaps marked STEP 12a to 12f)
+     It matches the Figma frame "My Profile · Student editor". -->
+
+<!-- Page introduction -->
+<section class="intro">
+  <div class="intro__text">
+    <p class="overline">YOUR YEARBOOK / MY PROFILE</p>
+    <h1 class="intro__title">Make this page yours.</h1>
+    <p class="intro__desc">
+      A photo, a few words, a little of who you are. This is how your classmates will remember you.
+    </p>
+  </div>
+  <p class="intro__signed">
+    SIGNED IN AS<br />
+    {{ user()?.name }}
+  </p>
+</section>
+
+@if (student(); as s) {
+  <div class="columns">
+    <form class="card" [formGroup]="form" (ngSubmit)="saveDraft()" novalidate>
+      <div class="identity">
+        <div>
+          <p class="identity__name">{{ s.name }}</p>
+          <p class="identity__meta">{{ s.faculty }} · Class of {{ s.classYear }}</p>
+        </div>
+        <span class="tag tag--draft">Draft · Not published</span>
+      </div>
+
+      <!-- Photo (the upload itself is an optional challenge) -->
+      <div class="group">
+        <p class="label">Your yearbook photo</p>
+        <div class="photo">
+          <img class="photo__current" [src]="s.photo" [alt]="'Current portrait of ' + s.name" />
+          <label class="photo__drop">
+            <input type="file" accept="image/png, image/jpeg" class="visually-hidden" />
+            <img src="icons/upload.svg" alt="" aria-hidden="true" />
+            <span class="photo__prompt">Choose a photo or drag it here</span>
+            <span class="photo__hint">JPG or PNG · Up to 5 MB · Portrait recommended</span>
+          </label>
+        </div>
+      </div>
+
+      <div class="group">
+        <label class="label" for="quote">Your quote</label>
+        <input id="quote" class="control" type="text" formControlName="quote" />
+        <p class="hint" [class.hint--error]="quoteLength() > 160">
+          A few words to leave behind. {{ quoteLength() }} / 160 characters
+        </p>
+        @if (form.controls.quote.touched && form.controls.quote.hasError('required')) {
+          <p class="error" role="alert">Your quote cannot be empty.</p>
+        }
+      </div>
+
+      <div class="group">
+        <label class="label" for="story">Your story</label>
+        <textarea id="story" class="control control--story" formControlName="story"></textarea>
+        <p class="hint" [class.hint--error]="values().story.length > 1000">
+          Tell us about your time at GIU, your passions, and your next chapter. Max. 1,000 characters.
+          ({{ values().story.length }} / 1,000)
+        </p>
+      </div>
+
+      <!-- Moment + next, side by side -->
+      <div class="pair">
+        <div class="group">
+          <label class="label" for="moment">A moment to keep</label>
+          <textarea id="moment" class="control control--small" formControlName="moment"></textarea>
+        </div>
+        <div class="group">
+          <label class="label" for="next">What’s next?</label>
+          <textarea id="next" class="control control--small" formControlName="next"></textarea>
+        </div>
+      </div>
+
+      <label class="consent">
+        <input type="checkbox" formControlName="consent" />
+        <span class="consent__box" aria-hidden="true">
+          <img src="icons/check.svg" alt="" />
+        </span>
+        <span class="consent__label">
+          I’m happy for my photo, quote, and story to appear in the Class of 2028 yearbook.
+        </span>
+      </label>
+
+      <div class="actions">
+        <p class="actions__status" role="status">
+          @if (storageError()) {
+            Could not save: the browser storage is full.
+          } @else if (changed()) {
+            Unsaved changes
+          } @else if (savedAt(); as time) {
+            Draft saved at {{ time | date: 'HH:mm' }}
+          } @else {
+            No changes yet
+          }
+        </p>
+        <div class="actions__buttons">
+          <button type="button" class="btn" (click)="saveDraft()">Save draft</button>
+          <button type="button" class="btn btn--primary" disabled>
+            Publish profile
+            <img src="icons/arrow-right.svg" alt="" aria-hidden="true" />
+          </button>
+        </div>
+      </div>
+    </form>
+
+    <!-- Live preview -->
+    <aside class="preview">
+      <div class="preview__heading">
+        <p class="preview__title">Your directory card</p>
+        <span class="tag">PREVIEW</span>
+      </div>
+
+      <article class="mini">
+        <img class="mini__photo" [src]="s.photo" [alt]="'Portrait of ' + s.name" />
+        <div class="mini__body">
+          <p class="mini__name">
+            {{ s.name }}
+            <img src="icons/arrow-up-right.svg" alt="" aria-hidden="true" />
+          </p>
+          <p class="mini__meta">{{ s.faculty }} · Class of {{ s.classYear }}</p>
+          <p class="mini__quote">“{{ values().quote }}”</p>
+        </div>
+      </article>
+
+      <p class="preview__note">
+        Your full story opens when a classmate selects your card. Changes appear in the yearbook
+        once you publish.
+      </p>
+
+      <div class="guidance">
+        <img src="icons/sparkles.svg" alt="" aria-hidden="true" />
+        <p class="guidance__title">Keep it authentically you.</p>
+        <p>Choose a clear, recent photo.<br />Share a memory that makes you smile.<br />Give a little glimpse of what’s next.</p>
+      </div>
+
+      <button type="button" class="signout" (click)="signOut()">Sign out of your account ↗</button>
+    </aside>
+  </div>
+} @else {
+  <p class="status" role="status">Loading your profile…</p>
+}

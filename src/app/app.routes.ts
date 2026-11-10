@@ -5,9 +5,11 @@
          inside <router-outlet> (see app.html) when the URL changes.
    ===================================================================== */
 import { Routes } from '@angular/router';
-
+import { LoginPage } from './pages/login-page/login-page';
 import { StudentsPage } from './pages/students-page/students-page';
 import { PlaceholderPage } from './pages/placeholder-page/placeholder-page';
+import { authGuard } from './guards/auth.guard';
+import { ProfilePage } from './pages/profile-page/profile-page';
 
 export const routes: Routes = [
   // STEP 1: The landing page. An empty path '' means "the home URL".
@@ -24,12 +26,13 @@ export const routes: Routes = [
     title: 'Teachers & Staff · GIU Yearbook',
     loadComponent: () => import('./pages/staff-page/staff-page').then((m) => m.StaffPage),
   },
-
+  
   // STEP 3: Pages we have NOT designed/built yet use one placeholder page.
   // `data` lets us pass a small piece of information (the title) to it.
   // TIP: When you build the real page, replace `PlaceholderPage` with it.
   { path: 'gallery', component: PlaceholderPage, data: { title: 'Gallery' } },
-  { path: 'login', component: PlaceholderPage, data: { title: 'Student login' } },
+  { path: 'login', component: LoginPage, title: 'Student login · GIU Yearbook' }, 
+  { path: 'profile', component: ProfilePage, canActivate: [authGuard], title: 'My profile · GIU Yearbook' },
 
   // STEP 4: `:id` is a route PARAMETER. /students/3 and /students/7 both
   // match this route. The page can read the number later.
