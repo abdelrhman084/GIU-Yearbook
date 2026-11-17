@@ -63,15 +63,13 @@ export class ProfilePage implements OnInit {
       if (!student) {
         return;
       }
-      const draft = this.drafts.load(student.id);
+           const draft = this.drafts.load(student.id);
       if (draft) {
-        // A saved draft wins over the directory data.
         this.form.patchValue(draft.values);
         this.savedAt.set(draft.savedAt);
       } else {
         this.form.patchValue({ quote: student.quote });
       }
-      // patchValue counts as a "change", so reset the flag afterwards.
       this.changed.set(false);
     });
   }
